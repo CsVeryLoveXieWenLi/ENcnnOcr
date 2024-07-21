@@ -1,7 +1,7 @@
 ﻿/*
  * @Author: CsVeryLoveXieWenLi
  * @Date: 2024-07-20 14:47:35
- * @LastEditTime: 2024-07-21 09:55:51
+ * @LastEditTime: 2024-07-21 11:55:48
  * @Description: FastestDet
  * @Sign: 有些故事，总是美妙又缥缈，郁郁不得终。
  * Copyright (c) 2024 by CsVeryLoveXieWenLi, All Rights Reserved.
@@ -64,5 +64,5 @@ private:
     /**
      * 非极大值抑制
      */
-    static void nms(std::vector<DetectionBox>& boxes, std::vector<DetectionBox>& picked);
+    static void nms(std::vector<DetectionBox>& boxes, std::vector<DetectionBox>& picked, cv::Rect& border);
 };

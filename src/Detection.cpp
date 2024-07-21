@@ -8,6 +8,7 @@
  */
 
 #include "Detection.h"
+#include "opencv2/core/types.hpp"
 
 
 /**
@@ -71,7 +72,7 @@ void Detection::decode(ncnn::Mat& output, std::vector<DetectionBox>& boxes, int 
 /**
  * 非极大值抑制
  */
-void Detection::nms(std::vector<DetectionBox>& boxes, std::vector<DetectionBox>& picked) {
+void Detection::nms(std::vector<DetectionBox>& boxes, std::vector<DetectionBox>& picked, cv::Rect& border) {
     sort(boxes.begin(), boxes.end(), [&](DetectionBox& a, DetectionBox& b) { return a.score > b.score; });
 
     for (auto& a : boxes) {
@@ -93,7 +94,10 @@ void Detection::nms(std::vector<DetectionBox>& boxes, std::vector<DetectionBox>&
             }
         }
 
-        if (keep) picked.push_back(a);
+        if (keep) {
+            a.rect &= border;
+            picked.push_back(a);
+        }
     }
 }
 
@@ -136,9 +140,7 @@ std::vector<DetectionBox> Detection::inference(cv::Mat& image) {
     extractor.extract("out0", output);
 
     decode(output, boxes, imageWidth, imageHeight);
-    nms(boxes, picked);
-
-    for (auto& box : picked) box.rect &= border;
+    nms(boxes, picked, border);
 
     return picked;
 }
