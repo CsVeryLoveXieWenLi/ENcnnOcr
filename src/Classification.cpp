@@ -1,26 +1,41 @@
 ﻿/*
  * @Author: CsVeryLoveXieWenLi
  * @Date: 2024-07-20 14:47:35
- * @LastEditTime: 2024-07-20 15:12:07
+ * @LastEditTime: 2024-07-21 10:14:31
  * @Description: Classification
  * @Sign: 有些故事，总是美妙又缥缈，郁郁不得终。
  * Copyright (c) 2024 by CsVeryLoveXieWenLi, All Rights Reserved.
  */
- 
+
 #include "Classification.h"
 
 
 /**
  * 初始化
  */
-Classification::Classification(const char* param, const char* bin, short threads) {
+Classification::Classification(
+    const char*  param,
+    const char*  bin,
+    short        threads,
+    const float* mean,
+    const float* norm
+) {
     net.opt.num_threads         = threads;
     net.opt.use_fp16_packed     = false;
     net.opt.use_fp16_storage    = false;
     net.opt.use_fp16_arithmetic = false;
+    net.opt.lightmode           = false;
 
     net.load_param(param);
     net.load_model(bin);
+
+    this->mean[0] = mean[0] * 255.f;
+    this->mean[1] = mean[1] * 255.f;
+    this->mean[2] = mean[2] * 255.f;
+
+    this->norm[0] = 1 / norm[0] / 255.f;
+    this->norm[1] = 1 / norm[1] / 255.f;
+    this->norm[2] = 1 / norm[2] / 255.f;
 }
 
 
@@ -35,19 +50,10 @@ short Classification::inference(cv::Mat& image) {
 
     ncnn::Mat input, output;
 
-    if (imageWidth == size[0] && imageHeight == size[1]) {
-        input = ncnn::Mat::from_pixels(image.data, ncnn::Mat::PIXEL_BGR2RGB, imageWidth, imageHeight);
-    } else {
-        input = ncnn::Mat::from_pixels_resize(
-            image.data,
-            ncnn::Mat::PIXEL_BGR2RGB,
-            imageWidth,
-            imageHeight,
-            size[0],
-            size[1]
-        );
-    }
-    input.substract_mean_normalize(0, norm);
+    //  Ncnn -> shape == resize? -> cv2.INTER_LINEAR
+    input =
+        ncnn::Mat::from_pixels_resize(image.data, ncnn::Mat::PIXEL_BGR2RGB, imageWidth, imageHeight, size[0], size[1]);
+    input.substract_mean_normalize(mean, norm);
 
     extractor.input("in0", input);
     extractor.extract("out0", output);

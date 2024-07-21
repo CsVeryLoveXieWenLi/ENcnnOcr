@@ -1,7 +1,7 @@
 ﻿/*
  * @Author: CsVeryLoveXieWenLi
  * @Date: 2024-07-20 14:47:35
- * @LastEditTime: 2024-07-20 15:02:48
+ * @LastEditTime: 2024-07-21 09:55:51
  * @Description: FastestDet
  * @Sign: 有些故事，总是美妙又缥缈，郁郁不得终。
  * Copyright (c) 2024 by CsVeryLoveXieWenLi, All Rights Reserved.
@@ -43,7 +43,7 @@ private:
 
     static inline const short classes     = 1;
     static inline const float scoreThresh = 0.8f;
-    static inline const float iouThresh   = 0.43f;
+    static inline const float iouThresh   = 0.45f;
 
 
     /**
