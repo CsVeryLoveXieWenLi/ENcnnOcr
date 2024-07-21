@@ -1,7 +1,7 @@
 ﻿/*
  * @Author: CsVeryLoveXieWenLi
  * @Date: 2024-07-20 14:47:35
- * @LastEditTime: 2024-07-21 10:06:22
+ * @LastEditTime: 2024-07-21 11:49:07
  * @Description: FastestDet
  * @Sign: 有些故事，总是美妙又缥缈，郁郁不得终。
  * Copyright (c) 2024 by CsVeryLoveXieWenLi, All Rights Reserved.
@@ -25,9 +25,6 @@ float Detection::tanh(float x) { return 2.0f / (1.0f + exp(-2 * x)) - 1; }
  * 解码输出
  */
 void Detection::decode(ncnn::Mat& output, std::vector<DetectionBox>& boxes, int imageWidth, int imageHeight) {
-    // 边界
-    cv::Rect border = cv::Rect(0, 0, imageWidth, imageHeight);
-
     for (short h = 0; h < output.h; h++) {
         for (short w = 0; w < output.w; w++) {
             // 前景分数
@@ -65,7 +62,7 @@ void Detection::decode(ncnn::Mat& output, std::vector<DetectionBox>& boxes, int 
                 int x2 = (int)((cx + boxWidth * 0.5) * imageWidth);
                 int y2 = (int)((cy + boxHeight * 0.5) * imageHeight);
 
-                boxes.push_back(DetectionBox{cv::Rect(x1, y1, x2 - x1, y2 - y1) & border, score, label});
+                boxes.push_back(DetectionBox{cv::Rect(x1, y1, x2 - x1, y2 - y1), score, label});
             }
         }
     }
@@ -109,7 +106,7 @@ Detection::Detection(const char* param, const char* bin, short threads) {
     net.opt.use_fp16_packed     = false;
     net.opt.use_fp16_storage    = false;
     net.opt.use_fp16_arithmetic = false;
-    net.opt.lightmode           = false;
+    net.opt.lightmode           = true;
 
     net.load_param(param);
     net.load_model(bin);
@@ -125,19 +122,23 @@ std::vector<DetectionBox> Detection::inference(cv::Mat& image) {
     int imageWidth  = image.cols;
     int imageHeight = image.rows;
 
+    cv::Rect border = cv::Rect(0, 0, imageWidth, imageHeight);
+
     ncnn::Mat                 input, output;
     std::vector<DetectionBox> boxes, picked;
 
     //  Ncnn -> shape == resize? -> cv2.INTER_LINEAR
     input =
         ncnn::Mat::from_pixels_resize(image.data, ncnn::Mat::PIXEL_BGR2RGB, imageWidth, imageHeight, size[0], size[1]);
-    input.substract_mean_normalize(0, norm);
+    input.substract_mean_normalize(nullptr, norm);
 
     extractor.input("in0", input);
     extractor.extract("out0", output);
 
     decode(output, boxes, imageWidth, imageHeight);
     nms(boxes, picked);
+
+    for (auto& box : picked) box.rect &= border;
 
     return picked;
 }

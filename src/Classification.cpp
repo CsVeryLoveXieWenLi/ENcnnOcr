@@ -24,7 +24,7 @@ Classification::Classification(
     net.opt.use_fp16_packed     = false;
     net.opt.use_fp16_storage    = false;
     net.opt.use_fp16_arithmetic = false;
-    net.opt.lightmode           = false;
+    net.opt.lightmode           = true;
 
     net.load_param(param);
     net.load_model(bin);

@@ -29,4 +29,9 @@ public:
      * 数字转化到字节集
      */
     static const uchar* ints2bytes(std::vector<int>& ints);
+
+    /**
+     * 复制字符串到堆上
+     */
+    static const char* string2copy(std::string text);
 };
