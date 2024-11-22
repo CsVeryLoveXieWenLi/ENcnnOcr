@@ -1,10 +1,8 @@
-﻿/*
+﻿/**
  * @Author: CsVeryLoveXieWenLi
- * @Date: 2024-07-20 14:47:35
- * @LastEditTime: 2024-07-21 09:21:06
+ * @LastEditTime: 2024-11-22 13:09:19
  * @Description: Classification
- * @Sign: 有些故事，总是美妙又缥缈，郁郁不得终。
- * Copyright (c) 2024 by CsVeryLoveXieWenLi, All Rights Reserved.
+ * @Copyright (c) 2024 by CsVeryLoveXieWenLi, All Rights Reserved. 
  */
 
 #pragma once

@@ -1,10 +1,8 @@
-﻿/*
+﻿/**
  * @Author: CsVeryLoveXieWenLi
- * @Date: 2024-07-20 15:15:58
- * @LastEditTime: 2024-07-21 11:47:23
- * @Description: 工具
- * @Sign: 有些故事，总是美妙又缥缈，郁郁不得终。
- * Copyright (c) 2024 by CsVeryLoveXieWenLi, All Rights Reserved.
+ * @LastEditTime: 2024-11-22 13:10:06
+ * @Description: Utils
+ * @Copyright (c) 2024 by CsVeryLoveXieWenLi, All Rights Reserved. 
  */
 
 #include "utils.h"

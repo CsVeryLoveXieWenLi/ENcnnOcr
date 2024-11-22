@@ -1,13 +1,10 @@
 ﻿--[[
 Author: CsVeryLoveXieWenLi
-Date: 2024-05-05 14:25:09
-LastEditors: CsVeryLoveXieWenLi
-LastEditTime: 2024-05-16 02:16:58
+LastEditTime: 2024-11-22 13:10:47
 Description: demo
-QQ: 1172236399
-Sign: 有些故事，总是美妙又缥缈，郁郁不得终。
 Copyright (c) 2024 by CsVeryLoveXieWenLi, All Rights Reserved. 
 --]]
+
 
 -- update -> xmake project -k compile_commands
 
@@ -19,20 +16,20 @@ add_rules("mode.release")
 
 
 -- 运行库
-add_cxflags("/MD")
+add_cxflags("/MT")
 
 
 -- 头文件路径
-add_includedirs("D:\\Libs\\StaticMD\\opencv-4.10.0\\x86\\include")
-add_includedirs("D:\\Libs\\StaticMD\\ncnn-20240410\\x86\\include")
+add_includedirs("D:\\Libs\\StaticMT\\opencv-4.10.0\\x86\\include")
+add_includedirs("D:\\Libs\\StaticMT\\ncnn-20240410\\x86\\include")
 
 
 -- 库文件路径
-add_linkdirs("D:\\Libs\\StaticMD\\opencv-4.10.0\\x86\\lib")
-add_linkdirs("D:\\Libs\\StaticMD\\ncnn-20240410\\x86\\lib")
+add_linkdirs("D:\\Libs\\StaticMT\\opencv-4.10.0\\x86\\lib")
+add_linkdirs("D:\\Libs\\StaticMT\\ncnn-20240410\\x86\\lib")
 
 
--- Opencv 库文件导入
+-- Opencv
 add_links("libjpeg-turbo.lib")
 add_links("libopenjp2.lib")
 add_links("libpng.lib")
@@ -43,27 +40,26 @@ add_links("opencv_imgproc4100.lib")
 add_links("zlib.lib")
 
 
--- Ncnn 库文件导入
+-- Ncnn
 add_links("ncnn.lib")
 
 
--- 系统库导入
+-- System
 add_syslinks("Advapi32")
 
 
--- 不破坏名称导出表
-add_files("src/export.def")
-
-
 -- 语言版本
-set_languages("clatest", "c++20")
+set_languages("clatest", "c+17")
 
 
 -- 任务配置
 target("demo")
     set_kind("shared")
+
+    add_files("src/export.def")
     add_files("src/*.cpp")
 
+    set_symbols("hidden")
     set_strip("all")
 
 
