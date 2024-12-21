@@ -21,12 +21,12 @@ add_cxflags("/MT")
 
 -- 头文件路径
 add_includedirs("D:\\Libs\\StaticMT\\opencv-4.10.0\\x86\\include")
-add_includedirs("D:\\Libs\\StaticMT\\ncnn-20240410\\x86\\include")
+add_includedirs("D:\\Libs\\StaticMT\\ncnn-20240820\\x86\\include")
 
 
 -- 库文件路径
 add_linkdirs("D:\\Libs\\StaticMT\\opencv-4.10.0\\x86\\lib")
-add_linkdirs("D:\\Libs\\StaticMT\\ncnn-20240410\\x86\\lib")
+add_linkdirs("D:\\Libs\\StaticMT\\ncnn-20240820\\x86\\lib")
 
 
 -- Opencv
@@ -45,11 +45,11 @@ add_links("ncnn.lib")
 
 
 -- System
-add_syslinks("Advapi32")
+add_syslinks("advapi32")
 
 
 -- 语言版本
-set_languages("clatest", "c+17")
+set_languages("clatest", "c+20")
 
 
 -- 任务配置

@@ -1,12 +1,11 @@
 ﻿/**
  * @Author: CsVeryLoveXieWenLi
- * @LastEditTime: 2024-11-22 13:09:27
+ * @LastEditTime: 2024-12-22 06:38:26
  * @Description: FastestDet
  * @Copyright (c) 2024 by CsVeryLoveXieWenLi, All Rights Reserved. 
  */
 
 #include "Detection.h"
-#include "opencv2/core/types.hpp"
 
 
 /**
